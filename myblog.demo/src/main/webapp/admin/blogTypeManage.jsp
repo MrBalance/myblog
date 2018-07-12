@@ -32,30 +32,78 @@
             pageList: [5, 10, 15, 20],
             //指定id为标识字段，在删除，更新的时候有用，如果配置此字段，在翻页时，换页不会影响选中的项
             idField: 'id',
-            //上方工具条 添加 修改 删除 刷新按钮
+          	//上方工具条 添加 修改 删除 刷新按钮
             toolbar:[{
                 iconCls: 'icon-add',    //图标
                 text: '添加',            //名称
                 handler: function () {  //回调函数
-                    alert("添加");
+                    $("#dlg").dialog("open").dialog("setTitle", "添加博客类别信息");
+                    //将url设置为添加
+                    url = "${blog}/admin/blogType/save.do";
                 }
             },'-',{
                 iconCls: 'icon-edit',
                 text: '修改',
                 handler: function () {
-                      alert("添加");
+    	            	//获取选中要修改的行
+    	                var selectedRows = $("#dg").datagrid("getSelections");
+    	                //确保被选中行只能为一行
+    	                if(selectedRows.length != 1) {
+    	                    $.messager.alert("系统提示", "请选择一个要修改的博客类别");
+    	                    return;
+    	                }
+    	                //获取选中行id
+    	                var row = selectedRows[0];
+    	                //打开对话框并且设置标题
+    	                $("#dlg").dialog("open").dialog("setTitle", "修改博客类别信息");
+    	                //将数组回显对话框中
+    	                $("#fm").form("load", row);//会自动识别name属性，将row中对应的数据，填充到form表单对应的name属性中
+    	                //在url中添加id 后台就能识别是更新操作
+    	                url = "${blog}/admin/blogType/save.do?id=" + row.id;
                     }
             },'-',{
                 iconCls: 'icon-edit',
                 text: '删除',
                 handler: function () {
-                      alert("删除");
+                	//获取选中要删除的行
+                    var selectedRows = $("#dg").datagrid("getSelections");
+                    //判断是否有选择的行
+                    if(selectedRows.length == 0) {
+                        $.messager.alert("系统提示", "请选择要删除的数据");
+                        return;
+                    }
+                    //定义选中 选中id数组
+                    var idsStr = [];
+                    //循环遍历将选中行的id push进入数组
+                    for(var i = 0; i < selectedRows.length; i++) {
+                    	
+                        idsStr.push(selectedRows[i].id);
+                    }
+                    //将数组安装,连接成字符串
+                    var ids = idsStr.join(","); //1,2,3,4
+                    //提示是否确认删除
+                    $.messager.confirm("系统提示", "<font color=red>您确定要删除选中的"+selectedRows.length+"条数据么？</font>", function(r) {
+                        if(r) {
+                            $.post("${blog}/admin/blogType/delete.do",
+                                {ids: ids}, function(result){
+                                    if(result.exist) {
+                                        $.messager.alert("系统提示", '该类别下有博客，不能删除!');
+                                    } else if(result.success) {
+                                        $.messager.alert("系统提示", "数据删除成功！");
+                                        selectedRows.length = 0;
+                                        $("#dg").datagrid("reload");
+                                    } else {
+                                        $.messager.alert("系统提示", "数据删除失败！");
+                                    }
+                                }, "json");
+                        }
+                    });
                 }
             },'-',{
                 iconCls: 'icon-reload',
                 text: '刷新',
                 handler: function () {
-                     alert("刷新");
+                	$("#dg").datagrid("reload");
                 }
             }],
             //同列属性，但是这些列将会冻结在左侧,z大小不会改变，当宽度大于250时，会显示滚动条，但是冻结的列不在滚动条内
@@ -71,6 +119,33 @@
     });
 </script>
 <body>
+<div id="dlg" class="easyui-dialog" style="width:500px; height:180px; padding:10px 20px"
+     closed="true" buttons="#dlg-buttons">
+    <form id="fm" method="post">
+        <table cellspacing="8px">
+            <tr>
+                <td>博客类别名称</td>
+                <td>
+                    <input type="text" id="typeName" name="typeName" class="easyui-validatebox" required="true">
+                </td>
+            </tr>
+            <tr>
+                <td>博客类别排序</td>
+                <td>
+                    <input type="text" id="orderNum" name="orderNum" class="easyui-numberbox" required="true"
+                           style="width:60px">&nbsp;(博客类别会根据序号从小到大排列)
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="dlg-buttons">
+    <div>
+        <a href="javascript:saveBlogType()" class="easyui-linkbutton" iconCls="icon-ok" plain="true">保存</a>
+        <a href="javascript:closeBlogTypeDialog()" class="easyui-linkbutton" iconCls="icon-cancel" plain="true">关闭</a>
+    </div>
+</div>
 <table id="dg"></table>
 </body>
 </html>

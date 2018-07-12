@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import ssm.blog.entity.BlogType;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by xp on 2017/4/14.
@@ -48,6 +49,13 @@ public interface BlogTypeDao {
      * @return
      */
     List<BlogType> listByPage(@Param("start") Integer start, @Param("end") Integer end);
+    /**
+     * 列出博客类型
+     * @param start
+     * @param end
+     * @return
+     */
+    List<BlogType> getBlogTypeData();
 
     /**
      * 查询总记录数

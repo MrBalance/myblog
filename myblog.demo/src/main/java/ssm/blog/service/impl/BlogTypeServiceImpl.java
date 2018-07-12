@@ -5,6 +5,8 @@ import ssm.blog.dao.BlogTypeDao;
 import ssm.blog.entity.BlogType;
 import ssm.blog.entity.PageBean;
 import ssm.blog.service.BlogTypeService;
+import java.util.List;
+
 
 import javax.annotation.Resource;
 
@@ -25,5 +27,23 @@ public class BlogTypeServiceImpl implements BlogTypeService{
         //查询记录总数
         pageBean.setTotal(blogTypeDao.getTotal());
         return pageBean;
+        
     }
+
+    public Integer addBlogType(BlogType blogType) {
+        return blogTypeDao.addBlogType(blogType);
+    }
+
+    public Integer updateBlogType(BlogType blogType) {
+        return blogTypeDao.updateBlogType(blogType);
+    }
+
+    public Integer deleteBlogType(Integer id) {
+        return blogTypeDao.deleteBlogType(id);
+    } 
+
+	public List<BlogType> getBlogTypeData() {
+		return blogTypeDao.getBlogTypeData();
+	}
+
 }

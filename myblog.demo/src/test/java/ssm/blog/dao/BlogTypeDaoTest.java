@@ -75,5 +75,12 @@ public class BlogTypeDaoTest {
         long total = blogTypeDao.getTotal();
         System.out.println(total);
     }
+    @Test
+    public void getBlogTypeData(){
+        List<BlogType> list = blogTypeDao.getBlogTypeData();
+        for (BlogType blogType : list) {
+			System.out.println(blogType);
+		}
+    }
 
 }

@@ -12,6 +12,10 @@
         <result property="typeName" column="type_name"/>
         <result property="orderNum" column="order_num"/>
     </resultMap>
+    <!--  定义字段集合 -->
+    <sql id="BlogTpyeColumns">
+        id,type_name,order_num
+    </sql>
     <!-- id为具体实现接口中的方法名-->
     <insert id="addBlogType" parameterType="BlogType" keyProperty="id" useGeneratedKeys="true">
         insert into db_blog.t_blogtype
@@ -49,14 +53,18 @@
         WHERE id = #{id}
     </update>
     <select id="getById" parameterType="java.lang.Integer" resultMap="BlogTypeResult" >
-        SELECT id,type_name,order_num from db_blog.t_blogtype
+        SELECT <include refid="BlogTpyeColumns"/> from db_blog.t_blogtype
             where id = #{id}
     </select>
     <select id="listByPage" resultMap="BlogTypeResult">
-       SELECT id,type_name,order_num from db_blog.t_blogtype
+       SELECT <include refid="BlogTpyeColumns"/> from db_blog.t_blogtype
            limit #{start} ,#{end}
     </select>
     <select id="getTotal" resultType="java.lang.Long">
         SELECT COUNT(id) from db_blog.t_blogtype
+    </select>
+    <!-- 接口中getBlogTpyeData 具体实现-->
+    <select id="getBlogTypeData" resultMap="BlogTypeResult">
+            SELECT <include refid="BlogTpyeColumns"/> from db_blog.t_blogtype
     </select>
 </mapper>

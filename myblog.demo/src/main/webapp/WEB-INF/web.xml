@@ -4,6 +4,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
          http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          id="WebApp_ID" version="3.0">
+         
 
     <!--spring配置文件路径-->
     <context-param>
@@ -13,6 +14,10 @@
     <!-- 配置spring监听器-->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <!--自定义博客类别监听器  -->
+     <listener>
+        <listener-class>ssm.blog.listener.InitBloggerData</listener-class>
     </listener>
     <!--spring mvc核心servlet-->
     <servlet>
