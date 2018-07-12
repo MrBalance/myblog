@@ -96,6 +96,12 @@
 	      <artifactId>druid</artifactId>
 	      <version>1.0.16</version>
 	    </dependency>
+	     <!-- 阿里巴巴json序列化工具-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.7</version>
+        </dependency>
         <!-- mybatis核心包 -->  
         <dependency>  
             <groupId>org.mybatis</groupId>  

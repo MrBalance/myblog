@@ -15,7 +15,7 @@
                     title:text,
                     closable:true,      //是否允许选项卡摺叠。
                     iconCls:icon,    //显示图标
-                    content:"<iframe frameborder=0 scrolling='auto' style='width:100%;height:100%' src='${blog}/admin/"+url+"'></iframe>"
+                    content:"<iframe frameborder=0 scrolling='auto' style='width:100%;height:100%' src='/admin/"+url+"'></iframe>"
                     //url 远程加载所打开的url
                 })
             }
