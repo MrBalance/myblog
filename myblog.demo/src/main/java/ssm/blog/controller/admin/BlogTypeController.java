@@ -47,7 +47,6 @@ public class BlogTypeController {
 	    //将序列化结果放入json对象中
 	    result.put("total", pageBean.getTotal());
 	    result.put("rows", array);
-	    System.out.println(result.toString());
 	    //使用自定义工具类向response中写入数据
 	    ResponseUtil.write(response, result);
 	    return null;
