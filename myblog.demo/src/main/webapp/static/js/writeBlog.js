@@ -29,7 +29,6 @@ function submitData(operate) {
     	if(operate=="add"){
     		$.post("/admin/blog/test.do",
                     {	
-    					'id': 12,
 		                'title' : title,
 		                'summary' : summary,
 		                'content' : content,
@@ -38,8 +37,9 @@ function submitData(operate) {
 		                'contentNoTag' : contentNoTag
                     },function(result) {
                         if (result.success) {
-                            $.messager.alert("系统提示", "博客发布成功！");
-                            clearValues("写博客");
+                            $.messager.alert("系统提示", "博客发布成功！",'info',function(){
+                            	clearValues("写博客");
+                            });
                         } else {
                             $.messager.alert("系统提示",  "博客发布失败！");
                         }
@@ -50,15 +50,16 @@ function submitData(operate) {
                     {
     					'id':id,
                         'title' : title,
-                        'blogType' : blogTypeId,
+                        'blogType.id' : blogTypeId,
                         'content' : content,
                         'summary' : summary,
                         'keyWord' : keyWord,
                         'contentNoTag' : contentNoTag
                     }, function(result) {
                         if (result.success) {
-                            $.messager.alert("系统提示", "博客修改成功！");
-                            clearValues("修改博客:"+id);
+                            $.messager.alert("系统提示", "博客修改成功！",'info',function(){
+                            	clearValues("修改博客:"+id);
+                            });
                         } else {
                             $.messager.alert("系统提示",  "博客修改失败！");
                         }
@@ -72,6 +73,6 @@ function submitData(operate) {
 }
 //清空功能
 function clearValues(text) {
-	console.log(text);
-	$('#tab').tabs('close',text);//关闭对应index的tabs
+	var jq = top.jQuery;
+	jq('#tabs').tabs('close',text);//关闭对应index的tabs
 }

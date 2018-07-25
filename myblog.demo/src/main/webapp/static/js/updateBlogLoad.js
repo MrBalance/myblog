@@ -30,14 +30,14 @@ $(function (){
 	    	    function succFunction(result) {
 	    	    	disLoad();
 	    	    	$("#id").val(result.id);
-	    	    	console.log($("#id"));
 	        		$("#title").val(result.title);
 	        		$("#keyWord").val(result.keyWord);
 	        		$("#submit").text("修改博客");
 	        		$("#submit").attr('href',"javascript:submitData('update')")
 	        		for(var i=0;i<data.length;i++){
 		    			if(data[i].id==result.blogType.id){
-		    				$('#blogType').combobox('select',data[i].typeName);
+		    				$('#blogType').combobox('select',data[i]);
+		    				$('#blogType').combobox('setValue',data[i].id);
 		    			}
 		    		}
 	        		UE.getEditor("editor").addListener("ready", function () {
