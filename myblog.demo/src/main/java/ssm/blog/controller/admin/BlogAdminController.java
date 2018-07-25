@@ -10,11 +10,13 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ssm.blog.entity.Blog;
 import ssm.blog.entity.PageBean;
+import ssm.blog.entity.TBlog;
 //import ssm.blog.lucene.BlogIndex;
 import ssm.blog.service.BlogService;
 //import ssm.blog.service.CommentService;
@@ -33,7 +35,7 @@ public class BlogAdminController {
 
     //后台分页查询博客信息
     @RequestMapping("/listBlog")
-    public String listBlog(
+    public void listBlog(
             @RequestParam(value = "page", required = false) String page,
             @RequestParam(value = "rows", required = false) String rows,
             Blog s_blog,
@@ -59,12 +61,19 @@ public class BlogAdminController {
         result.put("total", pageBean.getTotal());
         //返回
         ResponseUtil.write(response, result);
-        return null;
     }
 
+    @RequestMapping(value = "/test")
+    public void test(Blog blog,HttpServletResponse response) throws Exception {
+    	JSONObject result = new JSONObject();
+    	result.put("success", true);
+    	System.out.println("Object :"+JSONObject.toJSONString(blog));
+    	 ResponseUtil.write(response, result);
+    }
     //更新或者新增博客
     @RequestMapping(value = "/save")
     public String saveBlog(Blog blog,HttpServletResponse response) throws Exception {
+    	System.out.println("enter save");
         int resultTotal = 0;
 //        BlogIndex blogIndex = null;
 		if(blog.getId()!=null){

@@ -1,16 +1,14 @@
 /**
- * 发布博客
+ * 发布，修改博客
   */
 
-//实例化编辑器
-//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-var ue = UE.getEditor('editor');
 
-function submitData() {
+function submitData(operate) {
+	var id = $("#id").val();
     //获取博客标题
     var title = $("#title").val();
     //获取博客类别id
-    var blogTypeId = $("#blogTypeId").combobox("getValue");
+    var blogTypeId = $("#blogType").combobox("getValue");
     //获取博客内容 带标记
     var content = UE.getEditor('editor').getContent();
     //截取博客前155字符 作为博客简介
@@ -28,28 +26,52 @@ function submitData() {
         $.messager.alert("系统提示", "请编辑博客内容！");
     } else {
        //ajax请求 请求后台写博客接口
-        $.post("/admin/blog/save.do",
-                {
-                    'title' : title,
-                    'blogType.id' : blogTypeId,
-                    'content' : content,
-                    'summary' : summary,
-                    'keyWord' : keyWord,
-                    'contentNoTag' : contentNoTag
-                }, function(result) {
-                    if (result.success) {
-                        $.messager.alert("系统提示", "博客发布成功！");
-                        clearValues();
-                    } else {
-                        $.messager.alert("系统提示", "博客发布失败！");
-                    }
-                }, "json");
+    	if(operate=="add"){
+    		$.post("/admin/blog/test.do",
+                    {	
+    					'id': 12,
+		                'title' : title,
+		                'summary' : summary,
+		                'content' : content,
+		                'keyWord' : keyWord,
+		                'blogType.id' : blogTypeId,
+		                'contentNoTag' : contentNoTag
+                    },function(result) {
+                        if (result.success) {
+                            $.messager.alert("系统提示", "博客发布成功！");
+                            clearValues("写博客");
+                        } else {
+                            $.messager.alert("系统提示",  "博客发布失败！");
+                        }
+                    }, "json");
+    	}
+    	else if(operate == "update"	){
+    		$.post("/admin/blog/save.do",
+                    {
+    					'id':id,
+                        'title' : title,
+                        'blogType' : blogTypeId,
+                        'content' : content,
+                        'summary' : summary,
+                        'keyWord' : keyWord,
+                        'contentNoTag' : contentNoTag
+                    }, function(result) {
+                        if (result.success) {
+                            $.messager.alert("系统提示", "博客修改成功！");
+                            clearValues("修改博客:"+id);
+                        } else {
+                            $.messager.alert("系统提示",  "博客修改失败！");
+                        }
+                    }, "json");
+    	}
+    	else{
+    		url="#";
+    	}
+        
     }
 }
 //清空功能
-function clearValues() {
-    $("#title").val("");
-    $("#blogTypeId").combobox("setValue", "");
-    UE.getEditor("editor").setContent("");
-    $("#keyWord").val("");
+function clearValues(text) {
+	console.log(text);
+	$('#tab').tabs('close',text);//关闭对应index的tabs
 }

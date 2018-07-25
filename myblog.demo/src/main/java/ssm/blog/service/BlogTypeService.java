@@ -24,8 +24,11 @@ public interface BlogTypeService {
     // 删除博客类别
     public Integer deleteBlogType(Integer id);
     
-    //获取博客
-	List<BlogType> getBlogTypeData();
+    //获取博客类别列表
+	public List<BlogType> getBlogTypeData();
+	
+	//获取博客类别总数
+	public Long getBlogTypeTotal();
 
 
 }

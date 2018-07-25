@@ -13,6 +13,7 @@ import ssm.blog.service.BlogTypeService;
 import ssm.blog.util.ResponseUtil;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -51,6 +52,16 @@ public class BlogTypeController {
 	    ResponseUtil.write(response, result);
 	    return null;
 	}
+	// 分页查询博客类别
+		@RequestMapping("/listAll")
+		public String listAllBlogType(
+		        HttpServletResponse response) throws Exception {
+			 List<BlogType> blogTypeList = blogTypeService.getBlogTypeData();
+		    String jsonArray = JSON.toJSONString(blogTypeList);
+		    //使用自定义工具类向response中写入数据
+		    ResponseUtil.write(response, jsonArray);
+		    return null;
+		}
 	// 添加和更新博客类别
     @RequestMapping("/save")
     public String save(BlogType blogType, HttpServletResponse response)

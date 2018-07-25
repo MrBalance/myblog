@@ -1,5 +1,6 @@
 package ssm.blog.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,8 +10,9 @@ import java.util.List;
  * @author xp
  *
  */
-public class Blog {
-
+public class Blog implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
     private Integer id;
     private String title;
     private String summary;
@@ -19,10 +21,24 @@ public class Blog {
     private Integer replyHit;
     private String content;
     private String keyWord; //关键字，用空格隔开
-
     private BlogType blogType; //博客类型
     private Integer blogCount; //博客数量，非博客实际属性，用于根据发布日期归档查询
     private String releaseDateStr; //发布日期的字符串，只取年月
+
+    public Blog() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Blog(Integer id, String title, String summary, String content, String keyWord, BlogType blogType) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.summary = summary;
+		this.content = content;
+		this.keyWord = keyWord;
+		this.blogType = blogType;
+	}
 
     private List<String> imageList = new LinkedList<String>();//博客里存的图片，主要用于展示缩略图
 

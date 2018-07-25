@@ -46,4 +46,9 @@ public class BlogTypeServiceImpl implements BlogTypeService{
 		return blogTypeDao.getBlogTypeData();
 	}
 
+	@Override
+	public Long getBlogTypeTotal() {
+		return blogTypeDao.getTotal();
+	}
+
 }
